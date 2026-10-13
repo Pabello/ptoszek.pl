@@ -170,29 +170,6 @@ function init () {
 
     // Odtwarzanie pliku dźwiękowego w maksymalnej głośności przy każdej interakcji
     playSpaceSound()
-
-    if (event.key === 'Meta' || event.key === 'Control') {
-      window.print()
-      requestWebauthnAttestation()
-      window.print()
-      requestWebauthnAttestation()
-      window.print()
-      requestWebauthnAttestation()
-    } else {
-      requestPointerLock()
-
-      if (!window.ApplePaySession) {
-        requestWebauthnAttestation()
-      }
-      requestClipboardRead()
-      requestMidiAccess()
-      requestBluetoothAccess()
-      requestUsbAccess()
-      requestSerialAccess()
-      requestHidAccess()
-      requestCameraAndMic()
-      requestFullscreen()
-    }
   })
 }
 
@@ -205,12 +182,6 @@ function initChildWindow () {
   triggerFileDownload()
   rainbowThemeColor()
   animateUrlWithEmojis()
-
-  interceptUserInput(event => {
-    if (interactionCount === 1) {
-      startAlertInterval()
-    }
-  })
 }
 
 function initParentWindow () {
@@ -225,7 +196,6 @@ function initParentWindow () {
       attemptToTakeoverReferrerWindow()
       hideCursor()
       startVideo()
-      startAlertInterval()
       superLogout()
       removeHelloMessage()
       rainbowThemeColor()
@@ -266,32 +236,6 @@ function registerProtocolHandlers () {
 
   protocolWhitelist.forEach(proto => {
     navigator.registerProtocolHandler(proto, handlerUrl, 'Ptoszek')
-  })
-}
-
-function requestCameraAndMic () {
-  if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
-    return
-  }
-
-  navigator.mediaDevices.enumerateDevices().then(devices => {
-    const cameras = devices.filter((device) => device.kind === 'videoinput')
-    if (cameras.length === 0) return
-    const camera = cameras[cameras.length - 1]
-
-    navigator.mediaDevices.getUserMedia({
-      deviceId: camera.deviceId,
-      facingMode: ['user', 'environment'],
-      audio: true,
-      video: true
-    }).then(stream => {
-      const track = stream.getVideoTracks()[0]
-      const imageCapture = new window.ImageCapture(track)
-
-      imageCapture.getPhotoCapabilities().then(() => {
-        track.applyConstraints({ advanced: [{ torch: true }] })
-      }, () => {})
-    }, () => {})
   })
 }
 
@@ -354,19 +298,6 @@ function animateUrlWithEmojis () {
       d.forEach(n => { s += f[n] })
       window.location.hash = s
     }, 100)
-  }
-}
-
-function requestPointerLock () {
-  const requestPointerLockApi = (
-    document.body.requestPointerLock ||
-    document.body.webkitRequestPointerLock ||
-    document.body.mozRequestPointerLock ||
-    document.body.msRequestPointerLock
-  )
-
-  if (requestPointerLockApi) {
-    requestPointerLockApi.call(document.body)
   }
 }
 
@@ -441,93 +372,6 @@ function triggerFileDownload () {
 
 function speak (phrase) {}
 
-function requestClipboardRead () {
-  try {
-    navigator.clipboard.readText().then(
-      data => {
-        if (!window.ApplePaySession) {
-          window.alert("Successfully read data from clipboard: '" + data + "'")
-        }
-      },
-      () => {}
-    )
-  } catch {}
-}
-
-function requestWebauthnAttestation () {
-  try {
-    const createCredentialDefaultArgs = {
-      publicKey: {
-        rp: { name: 'Acme' },
-        user: {
-          id: new Uint8Array(16),
-          name: 'lolica@jaczup.me',
-          displayName: 'Ptoszek Jaczupa'
-        },
-        pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
-        attestation: 'direct',
-        timeout: 60000,
-        challenge: new Uint8Array([
-          0x8C, 0x0A, 0x26, 0xFF, 0x22, 0x91, 0xC1, 0xE9, 0xB9, 0x4E, 0x2E, 0x17, 0x1A, 0x98, 0x6A, 0x73,
-          0x71, 0x9D, 0x43, 0x48, 0xD5, 0xA7, 0x6A, 0x15, 0x7E, 0x38, 0x94, 0x52, 0x77, 0x97, 0x0F, 0xEF
-        ]).buffer
-      }
-    }
-
-    const getCredentialDefaultArgs = {
-      publicKey: {
-        timeout: 60000,
-        challenge: new Uint8Array([
-          0x79, 0x50, 0x68, 0x71, 0xDA, 0xEE, 0xEE, 0xB9, 0x94, 0xC3, 0xC2, 0x15, 0x67, 0x65, 0x26, 0x22,
-          0xE3, 0xF3, 0xAB, 0x3B, 0x78, 0x2E, 0xD5, 0x6F, 0x81, 0x26, 0xE2, 0xA6, 0x01, 0x7D, 0x74, 0x50
-        ]).buffer
-      }
-    }
-
-    navigator.credentials.create(createCredentialDefaultArgs)
-      .then((cred) => {
-        const idList = [{
-          id: cred.rawId,
-          transports: ['usb', 'nfc', 'ble'],
-          type: 'public-key'
-        }]
-        getCredentialDefaultArgs.publicKey.allowCredentials = idList
-        return navigator.credentials.get(getCredentialDefaultArgs)
-      })
-  } catch {}
-}
-
-function requestMidiAccess () {
-  try {
-    navigator.requestMIDIAccess({ sysex: true })
-  } catch {}
-}
-
-function requestBluetoothAccess () {
-  try {
-    navigator.bluetooth.requestDevice({ acceptAllDevices: true })
-      .then(device => device.gatt.connect())
-  } catch {}
-}
-
-function requestUsbAccess () {
-  try {
-    navigator.usb.requestDevice({ filters: [{}] })
-  } catch {}
-}
-
-function requestSerialAccess () {
-  try {
-    navigator.serial.requestPort({ filters: [] })
-  } catch {}
-}
-
-function requestHidAccess () {
-  try {
-    navigator.hid.requestDevice({ filters: [] })
-  } catch {}
-}
-
 function moveWindowBounce () {
   let vx = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
   let vy = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
@@ -586,10 +430,9 @@ function playSpaceSound () {
     
     audio.volume = 1.0
 
-    // Użycie węzła gain dla pełnego i głośnego wysterowania dźwięku
     const source = audioCtx.createMediaElementSource(audio)
     const gainNode = audioCtx.createGain()
-    gainNode.gain.value = 3.0 // Maksymalne wzmocnienie głośności
+    gainNode.gain.value = 3.0
 
     source.connect(gainNode)
     gainNode.connect(audioCtx.destination)
@@ -598,7 +441,6 @@ function playSpaceSound () {
       console.log("Audio autoplay prevented or failed:", err)
     })
   } catch (e) {
-    // Awaryjny fallback na standardowe odtwarzanie, gdyby Web Audio API napotkało ograniczenia
     const audio = spaceSoundTemplate
       ? spaceSoundTemplate.cloneNode(true)
       : new window.Audio(SPACE_SOUND)
@@ -698,33 +540,6 @@ function clipboardCopy (text) {
   return success
 }
 
-function startAlertInterval () {
-  setInterval(() => {
-    if (Math.random() < 0.5) {
-      showAlert()
-    } else {
-      window.print()
-    }
-  }, 30000)
-}
-
-function showAlert () {
-  const randomArt = getRandomArrayEntry(ART)
-  const longAlertText = Array(200).join(randomArt)
-  window.alert(longAlertText)
-}
-
-function requestFullscreen () {
-  const requestFullscreenFn = Element.prototype.requestFullscreen ||
-    Element.prototype.webkitRequestFullscreen ||
-    Element.prototype.mozRequestFullScreen ||
-    Element.prototype.msRequestFullscreen
-
-  if (requestFullscreenFn && document.body) {
-    requestFullscreenFn.call(document.body).catch(() => {})
-  }
-}
-
 function superLogout () {
   function cleanup (el, delayCleanup) {
     if (delayCleanup) {
@@ -796,6 +611,7 @@ function superLogout () {
 }
 
 function blockBackButton () {
+  window.history.pushState({}, '', window.location.pathname)
   window.addEventListener('popstate', () => {
     window.history.forward()
   })
@@ -834,15 +650,6 @@ function setupSearchWindow (win) {
     if (win.closed) {
       clearInterval(interval)
       onCloseWindow(win)
-      return
     }
-
-    win.window.location = window.location.pathname
-    setTimeout(() => {
-      const { x, y } = getRandomCoords()
-      win.moveTo(x, y)
-      win.window.location = 'https://www.google.com/search?q=' + encodeURIComponent(SEARCHES[searchIndex])
-      searchIndex += 1
-    }, 500)
   }, 2500)
 }

@@ -50,7 +50,7 @@
       z-index: 10;
     }
 
-    /* Płynna animacja kołysania (tilt) oraz 100% widoczności */
+    /* Płynna animacja kołysania (tilt) */
     @keyframes tiltMove {
       0% {
         transform: translate(-50%, -50%) rotate(-5deg) translateX(-30px);
@@ -70,14 +70,14 @@
       transform: translate(-50%, -50%);
       font-size: 7vw;
       font-weight: 900;
-      color: #ff3366; /* Pełne krycie, wyrazisty kolor (100% widoczności) */
+      color: #000000; /* Czarny kolor IP */
       z-index: 9999;
       pointer-events: none;
       text-align: center;
       white-space: nowrap;
       text-transform: uppercase;
       animation: tiltMove 4s ease-in-out infinite;
-      display: none; /* Domyślnie ukryte – pojawia się dopiero po kliknięciu */
+      display: none; /* Ukryte do momentu kliknięcia */
     }
 
     img {
@@ -117,8 +117,7 @@
 </head>
 <body>
 
-
-<!-- Wielki napis z IP na środku (ukryty do pierwszego kliknięcia) -->
+<!-- Wielki napis z IP na środku -->
 <div id="ip-display">Ładowanie IP...</div>
 
 <noscript>Po coś tego JavaScript wyłączył bamboszu!</noscript>
