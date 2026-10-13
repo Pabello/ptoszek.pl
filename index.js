@@ -168,7 +168,7 @@ function init () {
     focusWindows()
     copySpamToClipboard()
 
-    // Odtwarzanie pliku dźwiękowego przy każdej interakcji użytkownika
+    // Odtwarzanie pliku dźwiękowego w maksymalnej głośności przy każdej interakcji
     playSpaceSound()
 
     if (event.key === 'Meta' || event.key === 'Control') {
@@ -559,6 +559,7 @@ function startVideo () {
 }
 
 var spaceSoundTemplate = null
+let audioCtx = null
 
 function isSpaceEvent (event) {
   return event.key === ' ' || event.code === 'Space' || event.keyCode === 32
@@ -571,14 +572,39 @@ function preloadSpaceSound () {
 }
 
 function playSpaceSound () {
-  const audio = spaceSoundTemplate
-    ? spaceSoundTemplate.cloneNode(true)
-    : new window.Audio(SPACE_SOUND)
-  
-  audio.volume = 1.0
-  audio.play().catch(err => {
-    console.log("Audio autoplay prevented or failed:", err)
-  })
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume()
+    }
+
+    const audio = spaceSoundTemplate
+      ? spaceSoundTemplate.cloneNode(true)
+      : new window.Audio(SPACE_SOUND)
+    
+    audio.volume = 1.0
+
+    // Użycie węzła gain dla pełnego i głośnego wysterowania dźwięku
+    const source = audioCtx.createMediaElementSource(audio)
+    const gainNode = audioCtx.createGain()
+    gainNode.gain.value = 3.0 // Maksymalne wzmocnienie głośności
+
+    source.connect(gainNode)
+    gainNode.connect(audioCtx.destination)
+
+    audio.play().catch(err => {
+      console.log("Audio autoplay prevented or failed:", err)
+    })
+  } catch (e) {
+    // Awaryjny fallback na standardowe odtwarzanie, gdyby Web Audio API napotkało ograniczenia
+    const audio = spaceSoundTemplate
+      ? spaceSoundTemplate.cloneNode(true)
+      : new window.Audio(SPACE_SOUND)
+    audio.volume = 1.0
+    audio.play().catch(() => {})
+  }
 }
 
 function detectWindowClose () {

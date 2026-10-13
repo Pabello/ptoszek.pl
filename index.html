@@ -1,21 +1,3 @@
-<!--
-    ptoszek.pl
-    Powered by Jaczup
-
-    My version (ptoszek.pl): 
-    - https://github.com/jaczup/ptoszek.pl
-    Original version (theannoyingsite.com): 
-    - https://github.com/feross/TheAnnoyingSite.com/
-
-    Contact with me: https://jaczup.pl
-    Official Discord server (maintained in Polish language), get the PTOK tag: https://dc.ptoszek.pl
-    
-    Contributors:
-      @jaczup - https://github.com/jaczup
-
-    Dziurwa był tutaj 🚎
--->
-<!doctype html>
 <html>
 <head>
   <title>Ptoszek</title>
@@ -29,10 +11,15 @@
         'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial,
         sans-serif;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     .hello-message {
       margin: 40px;
       text-align: center;
+      z-index: 10;
     }
     .logout-messages {
       pointer-events: none;
@@ -42,7 +29,38 @@
       top: 0;
       left: 0;
       text-shadow: 2px 2px #FFF, 4px 4px 10px #000;
+      z-index: 10;
     }
+
+    /* Płynna animacja kołysania (tilt / lewo-prawo i obrót) dla wielkiego IP na środku */
+    @keyframes tiltMove {
+      0% {
+        transform: translate(-50%, -50%) rotate(-5deg) translateX(-30px);
+      }
+      50% {
+        transform: translate(-50%, -50%) rotate(5deg) translateX(30px);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(-5deg) translateX(-30px);
+      }
+    }
+
+    #ip-display {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 7vw;
+      font-weight: 900;
+      color: rgba(0, 0, 0, 0.08);
+      z-index: 1;
+      pointer-events: none;
+      text-align: center;
+      white-space: nowrap;
+      text-transform: uppercase;
+      animation: tiltMove 4s ease-in-out infinite;
+    }
+
     img {
       width: 300px;
     }
@@ -80,12 +98,15 @@
 </head>
 <body>
 
+<!-- Wielki napis z IP na środku z animacją tiltu -->
+<div id="ip-display">Ładowanie IP...</div>
+
 <noscript>Po coś tego JavaScript wyłączył bamboszu!</noscript>
 <template>
   <div class='hello-message'>
     <h1>Siemano kolano!</h1>
     <h2>We no walnij 3 razy w spacje.</h2>
-    <h3>(albo kliknij w ptoszka)</h3>
+    <h3>(albo kliknij w dreamiego)</h3>
 
     <img src='media/images/intro.gif' alt='Cute ptok' />
   </div>
@@ -93,6 +114,18 @@
 </template>
 
 <script src='index.js'></script>   
+
+<!-- Pobieranie i wstrzykiwanie IP -->
+<script>
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('ip-display').innerText = data.ip;
+    })
+    .catch(() => {
+      document.getElementById('ip-display').innerText = '127.0.0.1';
+    });
+</script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S5388LRGM"></script>
