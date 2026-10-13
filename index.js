@@ -168,7 +168,6 @@ function init () {
     focusWindows()
     copySpamToClipboard()
 
-    // Odtwarzanie pliku dźwiękowego w maksymalnej głośności przy każdej interakcji
     playSpaceSound()
   })
 }
@@ -342,7 +341,7 @@ function focusWindows () {
 function openWindow () {
   const { x, y } = getRandomCoords()
   const opts = `width=${WIN_WIDTH},height=${WIN_HEIGHT},left=${x},top=${y}`
-  const win = window.open(window.location.pathname, '', opts)
+  const win = window.open(window.location.pathname + '?child=true', '', opts)
 
   if (!win) return
   wins.push(win)

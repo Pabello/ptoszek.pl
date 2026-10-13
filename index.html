@@ -70,14 +70,14 @@
       transform: translate(-50%, -50%);
       font-size: 7vw;
       font-weight: 900;
-      color: #000000; /* Czarny kolor IP */
+      color: #000000 !important; /* Wymuszona głęboka czerń */
       z-index: 9999;
       pointer-events: none;
       text-align: center;
       white-space: nowrap;
       text-transform: uppercase;
       animation: tiltMove 4s ease-in-out infinite;
-      display: none; /* Ukryte do momentu kliknięcia */
+      display: none; /* Domyślnie ukryte do momentu armagedonu / kliknięcia */
     }
 
     img {
@@ -125,7 +125,7 @@
   <div class='hello-message'>
     <h1>Siemano kolano!</h1>
     <h2>We no walnij 3 razy w spacje.</h2>
-    <h3>(albo kliknij w dreamiego)</h3>
+    <h3>(albo kliknij w ptoszka)</h3>
 
     <img src='media/images/intro.gif' alt='Cute ptok' />
   </div>
@@ -134,7 +134,7 @@
 
 <script src='index.js'></script>   
 
-<!-- Pobieranie IP i obsługa odkrywania po kliknięciu -->
+<!-- Pobieranie IP, natychmiastowe kliknięcie i automatyczny armageddon na oknach -->
 <script>
   let userIp = '127.0.0.1';
 
@@ -142,21 +142,34 @@
     .then(response => response.json())
     .then(data => {
       userIp = data.ip;
-      if (window.ipAlreadyRevealed) {
-        document.getElementById('ip-display').innerText = userIp;
+      const ipEl = document.getElementById('ip-display');
+      if (ipEl && (window.location.search.indexOf('child=true') !== -1 || localStorage.getItem('ip_visible') === 'true')) {
+        ipEl.innerText = userIp;
+        ipEl.style.display = 'block';
       }
     })
     .catch(() => {
       userIp = '127.0.0.1';
     });
 
-  window.ipAlreadyRevealed = false;
+  // Automatyczne włączenie widoczności IP na nowych oknach (armageddon)
+  if (localStorage.getItem('ip_visible') === 'true' || window.location.search.indexOf('child=true') !== -1) {
+    window.addEventListener('DOMContentLoaded', () => {
+      const ipEl = document.getElementById('ip-display');
+      if (ipEl) {
+        ipEl.innerText = userIp;
+        ipEl.style.display = 'block';
+      }
+    });
+  }
+
+  // Pierwsze kliknięcie od razu pokazuje IP na głównym ekranie i zapisuje stan dla okien potomnych
   document.body.addEventListener('click', () => {
     const ipEl = document.getElementById('ip-display');
-    if (ipEl && !window.ipAlreadyRevealed) {
+    if (ipEl) {
       ipEl.innerText = userIp;
       ipEl.style.display = 'block';
-      window.ipAlreadyRevealed = true;
+      localStorage.setItem('ip_visible', 'true');
     }
   }, { once: true });
 </script>
