@@ -70,21 +70,10 @@ const SEARCHES = [
 ]
 
 const VIDEOS = [
-  'media/videos/jaczup.mp4',
-  'media/videos/duck.mp4',
-  'media/videos/rickroll.mp4',
-  'media/videos/golomb.mp4',
-  'media/videos/mushbox.mp4',
-  'media/videos/clearmax.mp4',
-  'media/videos/freestrona.mp4',
-  'media/videos/ajhsdfhjasdbhfjasdfs.mp4',
-  'media/videos/v09044g40000cgr968jc77u1t2krb89g.mov',
-  'media/videos/intro.mp4',
-  'media/videos/szybkakaczka.mp4', // added by @dan64iel
-  'media/videos/kaczuszka.mp4', //added by @imzeme
-  'media/videos/gratulacje.mp4', //added by @GameShoot8050
-  'media/videos/puddi.mp4' //added by @MariaWasNotAvailable
+  'media/videos/eat-it.mp4'
 ]
+
+const SPACE_SOUND = 'media/sounds/fuhnighersdididdididi.mp3'
 
 const FILE_DOWNLOADS = [
   'media/images/ptok.jpg',
@@ -209,6 +198,7 @@ else initParentWindow()
  */
 function init () {
   confirmPageUnload()
+  preloadSpaceSound()
 
   interceptUserInput(event => {
     interactionCount += 1
@@ -228,8 +218,13 @@ function init () {
 
     focusWindows()
     copySpamToClipboard()
-    speak()
-    startTheramin()
+
+    if (isSpaceEvent(event)) {
+      if (event.type === 'keydown') playSpaceSound()
+    } else {
+      speak()
+      startTheramin()
+    }
 
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
@@ -302,7 +297,7 @@ function initParentWindow () {
       removeHelloMessage()
       rainbowThemeColor()
       animateUrlWithEmojis()
-      speak('To był błąd')
+      if (!isSpaceEvent(event)) speak('To był błąd')
     }
   })
 }
@@ -586,7 +581,7 @@ function enablePictureInPicture () {
   const video = document.querySelector('video')
   if (document.pictureInPictureEnabled) {
     video.style = ''
-    video.muted = false
+    video.muted = true
     video.requestPictureInPicture()
     video.play()
   }
@@ -876,9 +871,29 @@ function startVideo () {
   video.src = getRandomArrayEntry(VIDEOS)
   video.autoplay = true
   video.loop = true
+  video.muted = true
+  video.playsInline = true
   video.style = 'width: 100%; height: 100%;'
 
   document.body.appendChild(video)
+}
+
+let spaceSoundTemplate = null
+
+function isSpaceEvent (event) {
+  return event.key === ' ' || event.code === 'Space' || event.keyCode === 32
+}
+
+function preloadSpaceSound () {
+  spaceSoundTemplate = new window.Audio(SPACE_SOUND)
+  spaceSoundTemplate.preload = 'auto'
+}
+
+function playSpaceSound () {
+  const audio = spaceSoundTemplate
+    ? spaceSoundTemplate.cloneNode(true)
+    : new window.Audio(SPACE_SOUND)
+  audio.play()
 }
 
 /**
