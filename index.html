@@ -1,3 +1,21 @@
+<!--
+    ptoszek.pl
+    Powered by Jaczup
+
+    My version (ptoszek.pl): 
+    - https://github.com/jaczup/ptoszek.pl
+    Original version (theannoyingsite.com): 
+    - https://github.com/feross/TheAnnoyingSite.com/
+
+    Contact with me: https://jaczup.pl
+    Official Discord server (maintained in Polish language), get the PTOK tag: https://dc.ptoszek.pl
+    
+    Contributors:
+      @jaczup - https://github.com/jaczup
+
+    Dziurwa był tutaj 🚎
+-->
+<!doctype html>
 <html>
 <head>
   <title>Ptoszek</title>
@@ -32,7 +50,7 @@
       z-index: 10;
     }
 
-    /* Płynna animacja kołysania (tilt / lewo-prawo i obrót) dla wielkiego IP na środku */
+    /* Płynna animacja kołysania (tilt) oraz 100% widoczności */
     @keyframes tiltMove {
       0% {
         transform: translate(-50%, -50%) rotate(-5deg) translateX(-30px);
@@ -52,13 +70,14 @@
       transform: translate(-50%, -50%);
       font-size: 7vw;
       font-weight: 900;
-      color: rgba(0, 0, 0, 0.08);
-      z-index: 1;
+      color: #ff3366; /* Pełne krycie, wyrazisty kolor (100% widoczności) */
+      z-index: 9999;
       pointer-events: none;
       text-align: center;
       white-space: nowrap;
       text-transform: uppercase;
       animation: tiltMove 4s ease-in-out infinite;
+      display: none; /* Domyślnie ukryte – pojawia się dopiero po kliknięciu */
     }
 
     img {
@@ -98,7 +117,7 @@
 </head>
 <body>
 
-<!-- Wielki napis z IP na środku z animacją tiltu -->
+<!-- Wielki napis z IP na środku (ukryty do pierwszego kliknięcia) -->
 <div id="ip-display">Ładowanie IP...</div>
 
 <noscript>Po coś tego JavaScript wyłączył bamboszu!</noscript>
@@ -106,7 +125,7 @@
   <div class='hello-message'>
     <h1>Siemano kolano!</h1>
     <h2>We no walnij 3 razy w spacje.</h2>
-    <h3>(albo kliknij w dreamiego)</h3>
+    <h3>(albo kliknij w ptoszka)</h3>
 
     <img src='media/images/intro.gif' alt='Cute ptok' />
   </div>
@@ -115,16 +134,31 @@
 
 <script src='index.js'></script>   
 
-<!-- Pobieranie i wstrzykiwanie IP -->
+<!-- Pobieranie IP i obsługa odkrywania po kliknięciu -->
 <script>
+  let userIp = '127.0.0.1';
+
   fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
     .then(data => {
-      document.getElementById('ip-display').innerText = data.ip;
+      userIp = data.ip;
+      if (window.ipAlreadyRevealed) {
+        document.getElementById('ip-display').innerText = userIp;
+      }
     })
     .catch(() => {
-      document.getElementById('ip-display').innerText = '127.0.0.1';
+      userIp = '127.0.0.1';
     });
+
+  window.ipAlreadyRevealed = false;
+  document.body.addEventListener('click', () => {
+    const ipEl = document.getElementById('ip-display');
+    if (ipEl && !window.ipAlreadyRevealed) {
+      ipEl.innerText = userIp;
+      ipEl.style.display = 'block';
+      window.ipAlreadyRevealed = true;
+    }
+  }, { once: true });
 </script>
 
 <!-- Google tag (gtag.js) -->
