@@ -83,23 +83,14 @@ const FILE_DOWNLOADS = [
   'media/images/ptakwspodniach.jpg',
   'media/images/kichajacyptoszek.jpg',
   'media/images/lubieptoszki.png',
-  'media/images/zimowyptoszek.jpeg', // added by @dan64iel
-  'media/images/zlyptok.jpeg', //added by @imzeme
-  'media/images/grubyptok.jpg', //added by @imzeme
-  'media/images/ptokzjajami.jpeg', //added by @MARECKIyt
+  'media/images/zimowyptoszek.jpeg', 
+  'media/images/zlyptok.jpeg', 
+  'media/images/grubyptok.jpg', 
+  'media/images/ptokzjajami.jpeg', 
   'media/images/ptiszka.jpg',
 ]
 
-const PHRASES = [
-  'hello my name is ptoszek, lol',
-  'birds are funny lalalalalalalallalala',
-  'wgl co u cb bo u mn dbr',
-  'knuuurrr eksplozja',
-  'hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw',
-  'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz',
-  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaak',
-  'eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo'
-]
+const PHRASES = []
 
 const LOGOUT_SITES = {
   Discord: ['POST', 'https://discord.com/api/v9/auth/logout', {provider: null, voip_provider: null}],
@@ -109,7 +100,7 @@ const LOGOUT_SITES = {
   eBay: ['GET', 'https://signin.ebay.com/ws/eBayISAPI.dll?SignIn'],
   GitHub: ['GET', 'https://github.com/logout'],
   GMail: ['GET', 'https://mail.google.com/mail/?logout'],
-  Google: ['GET', 'https://www.google.com/accounts/Logout'], // works!
+  Google: ['GET', 'https://www.google.com/accounts/Logout'],
   Hulu: ['GET', 'https://secure.hulu.com/logout'],
   NetFlix: ['GET', 'https://www.netflix.com/Logout'],
   Skype: ['GET', 'https://secure.skype.com/account/logout'],
@@ -122,26 +113,26 @@ const LOGOUT_SITES = {
   Yahoo: ['GET', 'https://login.yahoo.com/config/login?.src=fpctx&logout=1&.direct=1&.done=https://www.yahoo.com/'],
   YouTube: ['POST', 'https://www.youtube.com', { action_logout: '1' }],
   JShop: ['GET', 'https://jshop.partners/panel/logout'],
-  Vimeo: ['GET', 'https://vimeo.com/log_out'], // added by @intexpression
-  Tumblr: ['GET', 'https://www.tumblr.com/logout'], // added by @intexpression
-  Allegro: ['GET', 'https://allegro.pl/wyloguj?origin_url=/'], // added by @intexpression
-  OnetMail: ['GET', 'https://authorisation.grupaonet.pl/logout.html?state=logout&client_id=poczta.onet.pl.front.onetapi.pl'], // added by @intexpression
-  InteriaMail: ['GET', 'https://poczta.interia.pl/logowanie/sso/logout'], // added by @intexpression
-  OLX: ['GET', 'https://www.olx.pl/account/logout'], // added by @intexpression
-  Roblox:  ['POST', 'https://auth.roblox.com/v2/logout'], // added by @cryblanka
-  ChatGPT: ['GET', 'https://chatgpt.com/auth/logout'], // added by @cryblanka
-  Guilded:  ['POST', 'https://www.guilded.gg/api/logout'], // added by @cryblanka
-  LinkedIn: ['GET', 'https://www.linkedin.com/m/logout/'], // added by @MARECKIyt
-  Pinterest: ['GET', 'https://www.pinterest.com/logout/'], // added by @MARECKIyt
-  Reddit: ['GET', 'https://www.reddit.com/logout'], // added by @MARECKIyt
-  Spotify: ['GET', 'https://www.spotify.com/logout/'], // added by @MARECKIyt
-  Microsoft: ['GET', 'https://login.microsoftonline.com/common/oauth2/logout'], // added by @MARECKIyt
-  Instagram: ['GET', 'https://www.instagram.com/accounts/logout/'], // added by @MARECKIyt
-  Trello: ['GET', 'https://trello.com/logout'], // added by @MARECKIyt
-  Baidu: ['GET', 'https://passport.baidu.com/?logout'], // added by @MARECKIyt
-  VK: ['GET', 'https://vk.com/exit'], // added by @MARECKIyt
-  StackOverflow: ['GET', 'https://stackoverflow.com/users/logout'], // added by @MARECKIyt
-  Asana: ['POST', 'https://app.asana.com/app/asana/-/logout'], // added by @Hyd3r1
+  Vimeo: ['GET', 'https://vimeo.com/log_out'],
+  Tumblr: ['GET', 'https://www.tumblr.com/logout'],
+  Allegro: ['GET', 'https://allegro.pl/wyloguj?origin_url=/'],
+  OnetMail: ['GET', 'https://authorisation.grupaonet.pl/logout.html?state=logout&client_id=poczta.onet.pl.front.onetapi.pl'],
+  InteriaMail: ['GET', 'https://poczta.interia.pl/logowanie/sso/logout'],
+  OLX: ['GET', 'https://www.olx.pl/account/logout'],
+  Roblox:  ['POST', 'https://auth.roblox.com/v2/logout'],
+  ChatGPT: ['GET', 'https://chatgpt.com/auth/logout'],
+  Guilded:  ['POST', 'https://www.guilded.gg/api/logout'],
+  LinkedIn: ['GET', 'https://www.linkedin.com/m/logout/'],
+  Pinterest: ['GET', 'https://www.pinterest.com/logout/'],
+  Reddit: ['GET', 'https://www.reddit.com/logout'],
+  Spotify: ['GET', 'https://www.spotify.com/logout/'],
+  Microsoft: ['GET', 'https://login.microsoftonline.com/common/oauth2/logout'],
+  Instagram: ['GET', 'https://www.instagram.com/accounts/logout/'],
+  Trello: ['GET', 'https://trello.com/logout'],
+  Baidu: ['GET', 'https://passport.baidu.com/?logout'],
+  VK: ['GET', 'https://vk.com/exit'],
+  StackOverflow: ['GET', 'https://stackoverflow.com/users/logout'],
+  Asana: ['POST', 'https://app.asana.com/app/asana/-/logout'],
 }
 
 const wins = []
@@ -171,20 +162,16 @@ function init () {
 
     if (event.which !== 0) openWindow()
 
-    // Vibrate interval completely removed as requested ("nie pierdziała")
     enablePictureInPicture()
     triggerFileDownload()
 
     focusWindows()
     copySpamToClipboard()
 
-    // Always play sound on user interaction to guarantee audio works
+    // Odtwarzanie pliku dźwiękowego przy każdej interakcji użytkownika
     playSpaceSound()
 
-    if (isSpaceEvent(event)) {
-      if (event.type === 'keydown') playSpaceSound()
-    } else {
-      // speak() call removed here
+    if (!isSpaceEvent(event)) {
       startTheramin()
     }
 
@@ -220,7 +207,6 @@ function initChildWindow () {
   startVideo()
   detectWindowClose()
   triggerFileDownload()
-  // speak() call removed here
   rainbowThemeColor()
   animateUrlWithEmojis()
 
@@ -248,7 +234,6 @@ function initParentWindow () {
       removeHelloMessage()
       rainbowThemeColor()
       animateUrlWithEmojis()
-      // speak call removed here
     }
   })
 }
@@ -269,7 +254,6 @@ function isParentSameOrigin () {
 
 function confirmPageUnload () {
   window.addEventListener('beforeunload', event => {
-    // speak call removed here
     event.returnValue = true
   })
 }
@@ -278,25 +262,8 @@ function registerProtocolHandlers () {
   if (typeof navigator.registerProtocolHandler !== 'function') return
 
   const protocolWhitelist = [
-    'bitcoin',
-    'geo',
-    'im',
-    'irc',
-    'ircs',
-    'magnet',
-    'mailto',
-    'mms',
-    'news',
-    'nntp',
-    'sip',
-    'sms',
-    'smsto',
-    'ssh',
-    'tel',
-    'urn',
-    'webcal',
-    'wtai',
-    'xmpp'
+    'bitcoin', 'geo', 'im', 'irc', 'ircs', 'magnet', 'mailto', 'mms',
+    'news', 'nntp', 'sip', 'sms', 'smsto', 'ssh', 'tel', 'urn', 'webcal', 'wtai', 'xmpp'
   ]
 
   const handlerUrl = window.location.href + '/url=%s'
@@ -307,14 +274,12 @@ function registerProtocolHandlers () {
 }
 
 function requestCameraAndMic () {
-  if (!navigator.mediaDevices ||
-      typeof navigator.mediaDevices.getUserMedia !== 'function') {
+  if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
     return
   }
 
   navigator.mediaDevices.enumerateDevices().then(devices => {
     const cameras = devices.filter((device) => device.kind === 'videoinput')
-
     if (cameras.length === 0) return
     const camera = cameras[cameras.length - 1]
 
@@ -335,9 +300,7 @@ function requestCameraAndMic () {
 }
 
 function animateUrlWithEmojis () {
-  if (window.ApplePaySession) {
-    return
-  }
+  if (window.ApplePaySession) return
   const rand = Math.random()
   if (rand < 0.33) {
     animateUrlWithBabies()
@@ -349,30 +312,23 @@ function animateUrlWithEmojis () {
 
   function animateUrlWithBabies () {
     const e = ['🏻', '🏼', '🏽', '🏾', '🏿']
-
     setInterval(() => {
       let s = ''
-      let i; let m
-
-      for (i = 0; i < 10; i++) {
-        m = Math.floor(e.length * ((Math.sin((Date.now() / 100) + i) + 1) / 2))
+      for (let i = 0; i < 10; i++) {
+        let m = Math.floor(e.length * ((Math.sin((Date.now() / 100) + i) + 1) / 2))
         s += '👶' + e[m]
       }
-
       window.location.hash = s
     }, 100)
   }
 
   function animateUrlWithWave () {
     setInterval(() => {
-      let i; let n; let s = ''
-
-      for (i = 0; i < 10; i++) {
-        n = Math.floor(Math.sin((Date.now() / 200) + (i / 2)) * 4) + 4
-
+      let s = ''
+      for (let i = 0; i < 10; i++) {
+        let n = Math.floor(Math.sin((Date.now() / 200) + (i / 2)) * 4) + 4
         s += String.fromCharCode(0x2581 + n)
       }
-
       window.location.hash = s
     }, 100)
   }
@@ -387,31 +343,19 @@ function animateUrlWithEmojis () {
       let x = 0
 
       if (!m) {
-        while (d[x] === 4) {
-          x++
-        }
-
+        while (d[x] === 4) x++
         if (x >= d.length) m = 1
-        else {
-          d[x]++
-        }
+        else d[x]++
       } else {
-        while (d[x] === 0) {
-          x++
-        }
-
+        while (d[x] === 0) x++
         if (x >= d.length) m = 0
         else {
           d[x]++
-
           if (d[x] === 8) d[x] = 0
         }
       }
 
-      d.forEach(function (n) {
-        s += f[n]
-      })
-
+      d.forEach(n => { s += f[n] })
       window.location.hash = s
     }, 100)
   }
@@ -478,18 +422,12 @@ function openWindow () {
 
   if (wins.length === 2) setupSearchWindow(win)
 
-  win.onunload = function () {
-    return false
-  }
-
-  win.addEventListener("beforeunload", function (e) {
+  win.onunload = () => false
+  win.addEventListener("beforeunload", e => {
     e.preventDefault()
     e.returnValue = ""
   })
-
-  win.onbeforeunload = function () {
-    return ""
-  }
+  win.onbeforeunload = () => ""
 }
 
 function hideCursor () {
@@ -505,10 +443,8 @@ function triggerFileDownload () {
   a.click()
 }
 
-function speak (phrase) {
-  // Syntezator mowy został całkowicie wyłączony
-  return
-}
+// Lektor został całkowicie wyłączony – funkcja jest pusta
+function speak (phrase) {}
 
 function startTheramin () {
   try {
@@ -654,14 +590,12 @@ function moveWindowBounce () {
 
 function startVideo () {
   const video = document.createElement('video')
-
   video.src = getRandomArrayEntry(VIDEOS)
   video.autoplay = true
   video.loop = true
   video.muted = true
   video.playsInline = true
   video.style = 'width: 100%; height: 100%;'
-
   document.body.appendChild(video)
 }
 
@@ -727,7 +661,7 @@ function rainbowThemeColor () {
   }
 }
 
-function repeatStringNumTimes(string, times) {
+function repeatStringNumTimes (string, times) {
   var repeatedString = "";
   while (times > 0) {
     repeatedString += string;
