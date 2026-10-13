@@ -878,7 +878,7 @@ function startVideo () {
   document.body.appendChild(video)
 }
 
-let spaceSoundTemplate = null
+var spaceSoundTemplate = null
 
 function isSpaceEvent (event) {
   return event.key === ' ' || event.code === 'Space' || event.keyCode === 32
